@@ -13,6 +13,9 @@ public class MazeGenerator : MonoBehaviour
     public CustomObjectPool endPool;
     public GameObject trapPrefab;
     public int trapCount;
+    
+    public GameObject enemyPrefab;
+    public int enemyCount = 3;
 
     void PlaceTraps()
     {
@@ -30,6 +33,20 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
+
+    void PlaceEnemies()
+    {
+        for (int i = 0; i < enemyCount; i++)
+        {
+            int x = Random.Range(1, width - 1);
+            int y = Random.Range(1, height - 1);
+
+            if (_maze[x, y] == 1)
+            {
+                GameObject enemy = Instantiate(enemyPrefab, new Vector3(x, 0, y), Quaternion.identity);
+            }
+        }
+    }
     
     void Start()
     {
@@ -37,6 +54,7 @@ public class MazeGenerator : MonoBehaviour
         GenerateMaze(1, 1);
         PlaceStartAndEnd();
         PlaceTraps();
+        PlaceEnemies();
         VisualizeMaze();
     }
 

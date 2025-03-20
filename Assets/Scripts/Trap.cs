@@ -39,7 +39,7 @@ public class Trap : MonoBehaviour
 
     void RestartLevel()
     {
-        _playerController.transform.position = _playerController.spawnPosition;
+        _playerController.gameObject.transform.position = _playerController.spawnPosition;
     }
 
     void RegenerateLevel()
