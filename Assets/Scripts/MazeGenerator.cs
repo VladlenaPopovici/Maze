@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
@@ -10,12 +11,32 @@ public class MazeGenerator : MonoBehaviour
     public CustomObjectPool pathPool;
     public CustomObjectPool startPool;
     public CustomObjectPool endPool;
+    public GameObject trapPrefab;
+    public int trapCount;
 
+    void PlaceTraps()
+    {
+        for (int i = 0; i < trapCount; i++)
+        {
+            int x = Random.Range(1, width - 1);
+            int y = Random.Range(1, height - 1);
+
+            if (_maze[x, y] == 1)
+            {
+                GameObject trap = Instantiate(trapPrefab, new Vector3(x, 0, y), Quaternion.identity);
+                trap.GetComponent<Trap>().trapMode = Random.Range(0, 2) == 0
+                    ? Trap.TrapMode.RestartLevel
+                    : Trap.TrapMode.RegenerateLevel;
+            }
+        }
+    }
+    
     void Start()
     {
         _maze = new int[width, height];
         GenerateMaze(1, 1);
         PlaceStartAndEnd();
+        PlaceTraps();
         VisualizeMaze();
     }
 
